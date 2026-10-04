@@ -1,54 +1,67 @@
-# SpendSnap 💳
+# SpendSnap 💳 &bull; Student Weekly Budget Edition
 
-SpendSnap is a modern, full-stack personal expense tracking application featuring a **Spring Boot 3** REST API backend and an elegant, responsive web frontend. 
+SpendSnap is a modern, student-friendly personal expense and weekly budgeting web application built with **Spring Boot 3**, **Java 21**, **Spring Data JPA**, and an in-memory **H2 Database**.
 
-Designed with a warm, refined aesthetic—featuring **maroon** as the primary brand color, **warm cream** surfaces, and **restrained brown** accents—SpendSnap makes daily personal expense management intuitive, fast, and delightful.
-
----
-
-## 🎨 Design & Aesthetic
-
-- **Primary Brand**: Deep Maroon (`#7A1C2E`) representing intentional spending and stability.
-- **Page & Card Surfaces**: Warm Cream (`#FAF7F2` and `#FFFFFF`) providing a soft, welcoming, and high-contrast backdrop.
-- **Details & Accents**: Rich Coffee Browns (`#5D4037`) for secondary controls, subtle dividers, and typography.
-- **Typography**: Clean modern typefaces (`Outfit` for hero titles and metrics, `Plus Jakarta Sans` for body and forms).
-- **Responsive Experience**: Seamless layout adaptation across mobile phones, tablets, and desktop displays.
+Tailored for university students managing a weekly allowance (e.g., **Rs. 5,000 / week**), SpendSnap makes it effortless to record daily spends (canteen, transport, prints), log extra income (pocket money, tutoring gigs), track real-time balances, view an interactive category pie chart, and run calculations with an embedded quick calculator.
 
 ---
 
-## 🚀 Features
+## 🎨 Visual Design & Brand Palette
 
-### 🖥️ Frontend
-- **Monthly Spending Dashboard**: Real-time summary of total monthly expenditure, daily spending average, transaction count, and top category.
-- **Month-by-Month Navigation**: Previous/Next month controls with an instant "Current Month" jump button.
-- **Expense Management (CRUD)**: Add, edit, and delete expenses directly in a modal dialog without leaving the page.
-- **Search & Filters**:
-  - Instant note & category text search as you type.
-  - Category dropdown filter.
-  - Date range filtering (`startDate` and `endDate`) with quick filter chips (*This Month*, *All Time*, *Custom Range*).
-- **State Feedback**:
-  - Shimmering skeleton loader during data loading.
-  - Friendly empty state illustration when no expenses match.
-  - Error state with an instant retry action.
-  - Toast notifications for additions, updates, deletions, and error notifications.
-  - Inline form validation feedback with field-level alerts.
+SpendSnap pairs a refined, welcoming student aesthetic with clean typography and high-contrast accessibility:
+- **Primary Brand**: Deep Maroon (`#7A1C2E`, `#541320`) for primary buttons, weekly highlights, and hero badges.
+- **Surfaces & Cards**: Warm Cream (`#FAF7F2` page background, `#FFFFFF` elevated cards, `#F4EFEA` subtle surfaces).
+- **Secondary Accents**: Restrained Coffee Browns (`#5D4037`, `#8D6E63`, `#2D201A` typography) for subtle borders and icons.
+- **Currency**: Displayed in Sri Lankan Rupees (**Rs.**, `LKR`) consistently throughout all views.
+- **Typography**: Google Fonts [`Outfit`](https://fonts.google.com/specimen/Outfit) for hero metrics and titles, paired with [`Plus Jakarta Sans`](https://fonts.google.com/specimen/Plus+Jakarta+Sans) for ultra-legible forms and tables.
 
-### ⚙️ Backend
-- **RESTful Endpoints**: Complete CRUD API at `/api/expenses`.
-- **Validation**: Strict input validation using Jakarta Bean Validation (`@Positive`, `@NotBlank`, `@NotNull`, `@Size`).
-- **Standardized Error Responses**: Centralized `@RestControllerAdvice` delivering consistent JSON error objects.
-- **In-Memory H2 Database**: Instant setup with zero external dependencies; includes an embedded Web Console at `/h2-console`.
-- **Automated Testing**: Comprehensive JUnit 5 and MockMvc integration tests.
+---
+
+## 🚀 Key Features
+
+### 🎓 Student Weekly Budgeting (Monday &ndash; Sunday)
+- **Weekly Navigation**: Easily move across weeks (Monday through Sunday) with previous/next controls and a "Jump to This Week" shortcut.
+- **Starting Weekly Allowance**:
+  - Default friendly student budget of **Rs. 5,000.00**.
+  - Fully customizable: click **Edit** to update your allowance for any specific week, persisted in the database.
+- **Extra Income Tracking**:
+  - Record extra pocket money, gifts, or part-time earnings with amount, date, and source.
+  - View and delete weekly income entries from the income manager modal.
+- **Real-Time Remaining Balance**:
+  - Formula: `Balance = Weekly Allowance + Extra Income - Total Expenses`.
+  - Color-coded badges and status: **On Track 🎯**, **Budget Low ⚠️**, or **Overspent 🚨**.
+- **Spending Progress Bar**: Shows visual percentage spent vs remaining funds, with dynamic student budget tips.
+
+### 🥧 Weekly Category Pie Chart
+- **Lightweight & Accessible**: Built with pure responsive SVG—no heavy charting libraries needed.
+- **Visual Breakdown**: Highlights expenses for the selected week across categories (Food & Canteen, Transport, Education & Prints, Groceries, etc.).
+- **Interactive Legend**: Displays color-coded dots, exact amounts in Rs., and percentages.
+- **Empty State**: Friendly illustration when no expenses have been incurred during the week.
+
+### 🧮 Student Quick Calculator
+- **Convenient Side Panel**: Docked beside the chart on desktop; stacks smoothly below the dashboard on mobile.
+- **Quick Calculations**: Easily split canteen bills, bus fares, and textbook costs.
+- **Keyboard Support**: Full keyboard input (numbers, `+`, `-`, `*`, `/`, `%`, `Enter`, `Backspace`, `Esc`).
+- *Note*: Operates as a handy scratchpad and never modifies your actual expense records.
+
+### 📊 Full Monthly Overview & Expense History
+- **Monthly Metrics**: Monthly total spend, daily average, transaction count, and top category.
+- **Expense CRUD**: Add, edit, and delete expense entries with instant modal dialogs.
+- **Search & Filter Toolbar**: Instant text search for notes/categories, category dropdown, and custom date range filters.
+- **Feedback & States**: Shimmering skeleton loader, friendly empty state, retry error banner, and floating toast notifications.
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Backend**: Java 21, Spring Boot 3.3.5 (Spring Web, Spring Data JPA, Hibernate, Bean Validation)
-- **Database**: H2 In-Memory Database (`jdbc:h2:mem:spendsnap`)
-- **Frontend**: Vanilla HTML5, Modern CSS (Custom Properties, Flexbox, Grid), Modular JavaScript (ES6+ `async/await`)
-- **Build Tool**: Apache Maven (includes Maven Wrapper `mvnw` / `mvnw.cmd`)
-- **Testing**: JUnit 5, Spring Boot Test, MockMvc
+- **Backend**: Java 21, Spring Boot 3.3.5
+  - *Spring Web*: RESTful APIs
+  - *Spring Data JPA & Hibernate 6*: Data persistence
+  - *Bean Validation*: Jakarta validation annotations (`@Positive`, `@NotNull`, etc.)
+  - *H2 Database*: Embedded in-memory SQL database
+- **Frontend**: Vanilla HTML5, Modern CSS (Custom Properties, Flexbox, Grid), Modular JavaScript (ES6+ `async/await`, SVG)
+- **Build Tool**: Apache Maven (with wrapper `mvnw` / `mvnw.cmd`)
+- **Testing**: JUnit 5, Spring Boot Test, MockMvc (15 automated unit & integration tests)
 
 ---
 
@@ -60,36 +73,45 @@ SpendSnap/
 │   ├── main/
 │   │   ├── java/com/rashmi/spendsnap/
 │   │   │   ├── controller/
-│   │   │   │   └── ExpenseController.java          # REST API endpoints (/api/expenses)
+│   │   │   │   ├── ExpenseController.java          # /api/expenses
+│   │   │   │   ├── IncomeController.java           # /api/incomes
+│   │   │   │   └── WeeklyBudgetController.java     # /api/budgets/weekly
 │   │   │   ├── dto/
-│   │   │   │   ├── ExpenseRequest.java             # Request payload with validation
-│   │   │   │   └── ExpenseResponse.java            # Clean API response model
+│   │   │   │   ├── ExpenseRequest.java / ExpenseResponse.java
+│   │   │   │   ├── IncomeRequest.java / IncomeResponse.java
+│   │   │   │   └── WeeklyBudgetRequest.java / WeeklyBudgetResponse.java
 │   │   │   ├── exception/
-│   │   │   │   ├── ErrorResponse.java              # Standardized error structure
-│   │   │   │   ├── GlobalExceptionHandler.java     # Centralized exception handler
+│   │   │   │   ├── ErrorResponse.java
+│   │   │   │   ├── GlobalExceptionHandler.java
 │   │   │   │   └── ResourceNotFoundException.java
 │   │   │   ├── model/
-│   │   │   │   └── Expense.java                    # JPA database entity
+│   │   │   │   ├── Expense.java                    # 'expenses' table
+│   │   │   │   ├── Income.java                     # 'incomes' table
+│   │   │   │   └── WeeklyBudget.java               # 'weekly_budgets' table
 │   │   │   ├── repository/
-│   │   │   │   └── ExpenseRepository.java          # Custom JPQL search/filtering queries
+│   │   │   │   ├── ExpenseRepository.java
+│   │   │   │   ├── IncomeRepository.java
+│   │   │   │   └── WeeklyBudgetRepository.java
 │   │   │   ├── service/
-│   │   │   │   └── ExpenseService.java             # Business logic & data transformation
-│   │   │   └── SpendSnapApplication.java           # Spring Boot application main
+│   │   │   │   ├── ExpenseService.java
+│   │   │   │   ├── IncomeService.java
+│   │   │   │   └── WeeklyBudgetService.java
+│   │   │   └── SpendSnapApplication.java
 │   │   └── resources/
-│   │       ├── application.properties              # Database and server configuration
-│   │       └── static/                             # Embedded frontend web app
-│   │           ├── index.html                      # Single page application structure
-│   │           ├── css/
-│   │           │   └── styles.css                  # Design system (Maroon & Warm Cream)
-│   │           └── js/
-│   │               └── app.js                      # UI logic, state, and API integration
+│   │       ├── application.properties
+│   │       └── static/                             # Embedded Single Page App
+│   │           ├── index.html                      # Layout, weekly budget, chart & calc
+│   │           ├── css/styles.css                  # Maroon, warm cream & brown theme
+│   │           └── js/app.js                       # Budget state, SVG pie chart, calc logic
 │   └── test/
 │       └── java/com/rashmi/spendsnap/
 │           ├── controller/
-│           │   └── ExpenseControllerTest.java      # MockMvc integration tests
-│           └── SpendSnapApplicationTests.java      # Spring context load tests
-├── pom.xml                                         # Maven configuration
-├── test-api.ps1                                    # API automated testing script
+│           │   ├── ExpenseControllerTest.java      # 7 CRUD & filter tests
+│           │   ├── IncomeControllerTest.java       # 4 Income tests
+│           │   └── WeeklyBudgetControllerTest.java # 3 Budget tests
+│           └── SpendSnapApplicationTests.java      # 1 Context load test
+├── pom.xml
+├── test-api.ps1
 └── README.md
 ```
 
@@ -101,35 +123,36 @@ SpendSnap/
 - **Java JDK 21** or later (`java -version`)
 - **Git**
 
-### 1. Clone & Navigate
+### 1. Clone & Switch to Feature Branch
 ```bash
 git clone https://github.com/RashmiAbeysekera/SpendSnap.git
 cd SpendSnap
+git checkout feature/student-weekly-budget
 ```
 
-### 2. Build the Application
+### 2. Build the Project
 ```bash
-# Using Maven Wrapper (Windows)
+# Windows
 .\mvnw.cmd clean package
 
-# Using Maven Wrapper (macOS / Linux)
+# Linux / macOS
 ./mvnw clean package
 
 # Or using global Maven
 mvn clean package
 ```
 
-### 3. Run SpendSnap
+### 3. Run the Application
 ```bash
-# Option A: Spring Boot Maven Plugin
+# Option A: Run via Maven plugin
 mvn spring-boot:run
 
-# Option B: Run the packaged JAR directly
+# Option B: Run the standalone executable JAR
 java -jar target/spendsnap-0.0.1-SNAPSHOT.jar
 ```
 
 ### 4. Access the Application
-- **Web App**: Open your browser at [http://localhost:8080/](http://localhost:8080/)
+- **Student Web App**: [http://localhost:8080/](http://localhost:8080/)
 - **H2 Database Console**: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
   - *JDBC URL*: `jdbc:h2:mem:spendsnap`
   - *Username*: `sa`
@@ -139,38 +162,36 @@ java -jar target/spendsnap-0.0.1-SNAPSHOT.jar
 
 ## 📖 REST API Reference
 
-The backend REST API is available under `/api/expenses`:
-
+### 1. Expenses API (`/api/expenses`)
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/expenses` | List all expenses (ordered by date desc) |
-| `GET` | `/api/expenses?category=Groceries` | Filter by category |
-| `GET` | `/api/expenses?startDate=2026-10-01&endDate=2026-10-31` | Filter by date range |
-| `GET` | `/api/expenses?category=...&startDate=...&endDate=...` | Combined category and date filter |
+| `GET` | `/api/expenses` | List expenses (optional `category`, `startDate`, `endDate`) |
 | `GET` | `/api/expenses/{id}` | Get single expense by ID |
-| `POST` | `/api/expenses` | Create a new expense |
-| `PUT` | `/api/expenses/{id}` | Update an existing expense by ID |
-| `DELETE` | `/api/expenses/{id}` | Delete an expense by ID |
+| `POST` | `/api/expenses` | Record a new expense |
+| `PUT` | `/api/expenses/{id}` | Update an existing expense |
+| `DELETE` | `/api/expenses/{id}` | Delete an expense |
 
-### Example cURL Request:
-```bash
-curl -X POST http://localhost:8080/api/expenses \
-  -H "Content-Type: application/json" \
-  -d '{"amount": 42.50, "category": "Groceries", "date": "2026-10-04", "note": "Weekly market trip"}'
-```
+### 2. Weekly Budget API (`/api/budgets/weekly`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/budgets/weekly?weekStartDate=YYYY-MM-DD` | Get allowance for week (defaults to Rs 5,000) |
+| `PUT` | `/api/budgets/weekly` | Set/update starting allowance for the week |
+
+### 3. Extra Income API (`/api/incomes`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/incomes` | List incomes (optional `startDate`, `endDate`) |
+| `GET` | `/api/incomes/{id}` | Get single income entry by ID |
+| `POST` | `/api/incomes` | Record extra income (amount, date, source) |
+| `DELETE` | `/api/incomes/{id}` | Delete income entry |
 
 ---
 
 ## 🧪 Testing
 
-Run all unit and integration tests with:
+Run the full automated test suite (15 tests):
 ```bash
 mvn test
-```
-
-Or verify the endpoints live using the PowerShell script while the app is running:
-```powershell
-powershell -ExecutionPolicy Bypass -File .\test-api.ps1
 ```
 
 ---
