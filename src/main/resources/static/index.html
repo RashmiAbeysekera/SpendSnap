@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SpendSnap - Personal Expense Tracker</title>
-  <meta name="description" content="SpendSnap is an intuitive, modern personal expense tracker designed to help you stay on top of your daily spending." />
+  <title>SpendSnap - Student Weekly Budget & Expense Tracker</title>
+  <meta name="description" content="SpendSnap is an intuitive student-friendly personal expense and weekly budget tracker built with Spring Boot." />
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- App Stylesheet -->
   <link rel="stylesheet" href="/css/styles.css" />
@@ -27,14 +27,25 @@
           </svg>
         </div>
         <div>
-          <h1 class="brand-title">SpendSnap</h1>
-          <p class="brand-tagline">Personal Expense Tracker</p>
+          <div class="brand-title-wrap">
+            <h1 class="brand-title">SpendSnap</h1>
+            <span class="student-badge">🎓 Student Edition</span>
+          </div>
+          <p class="brand-tagline">Weekly Budget &amp; Expense Tracker &bull; Sri Lanka (Rs.)</p>
         </div>
       </div>
 
       <div class="header-actions">
+        <button id="openAddIncomeBtn" class="btn btn-secondary" type="button" title="Record extra pocket money or income">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>+ Add Income</span>
+        </button>
+
         <button id="openAddModalBtn" class="btn btn-primary" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
@@ -46,8 +57,214 @@
 
   <!-- Main Content Container -->
   <main class="container main-content">
+
+    <!-- ====================================================================
+         SECTION 1: STUDENT WEEKLY BUDGET DASHBOARD (Mon - Sun)
+         ==================================================================== -->
+    <section class="weekly-budget-section" aria-label="Student Weekly Budget">
+      <!-- Week Navigation Bar -->
+      <div class="week-selector-card">
+        <div class="week-selector-left">
+          <div class="week-navigation">
+            <button id="prevWeekBtn" class="btn-icon" title="Previous week" aria-label="Previous week">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <div class="current-week-display">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span id="selectedWeekRange">Loading week...</span>
+            </div>
+            <button id="nextWeekBtn" class="btn-icon" title="Next week" aria-label="Next week">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+          <span class="week-badge" id="weekIsCurrentBadge">This Week</span>
+        </div>
+
+        <div class="week-selector-right">
+          <button id="jumpCurrentWeekBtn" class="btn btn-subtle btn-sm">Jump to This Week</button>
+        </div>
+      </div>
+
+      <!-- 4 Weekly Metric Cards -->
+      <div class="weekly-stats-grid">
+        <!-- 1. Weekly Allowance -->
+        <div class="stat-card weekly-card allowance-card">
+          <div class="stat-header">
+            <span class="stat-label">Weekly Allowance</span>
+            <button id="editAllowanceBtn" class="btn-edit-link" title="Click to customize allowance" aria-label="Edit weekly allowance">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Edit</span>
+            </button>
+          </div>
+          <div class="stat-value" id="weekAllowanceVal">Rs. 5,000.00</div>
+          <p class="stat-meta">Starting funds for Mon &ndash; Sun</p>
+        </div>
+
+        <!-- 2. Extra Income -->
+        <div class="stat-card weekly-card income-card">
+          <div class="stat-header">
+            <span class="stat-label">Extra Income</span>
+            <button id="viewIncomesBtn" class="btn-edit-link" title="View or manage this week's income entries">
+              <span id="incomeCountBadge">0 entries</span>
+            </button>
+          </div>
+          <div class="stat-value text-success" id="weekIncomeVal">Rs. 0.00</div>
+          <p class="stat-meta" id="weekIncomeMeta">Pocket money, tutoring, gigs</p>
+        </div>
+
+        <!-- 3. Total Expenses -->
+        <div class="stat-card weekly-card expense-card">
+          <div class="stat-header">
+            <span class="stat-label">Week Expenses</span>
+            <span class="stat-icon-wrapper" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="stat-value text-maroon" id="weekExpensesVal">Rs. 0.00</div>
+          <p class="stat-meta" id="weekExpenseCountMeta">0 transactions recorded</p>
+        </div>
+
+        <!-- 4. Remaining Balance (Hero) -->
+        <div class="stat-card weekly-card balance-card" id="balanceCard">
+          <div class="stat-header">
+            <span class="stat-label">Current Balance</span>
+            <span class="balance-status-badge" id="balanceStatusBadge">On Track 🎯</span>
+          </div>
+          <div class="stat-value" id="weekBalanceVal">Rs. 5,000.00</div>
+          <p class="stat-meta" id="weekBalanceFormula">Allowance + Income &minus; Spent</p>
+        </div>
+      </div>
+
+      <!-- Weekly Budget Progress & Student Advice Banner -->
+      <div class="budget-progress-container">
+        <div class="progress-info-row">
+          <span class="progress-label" id="budgetProgressLabel">Allowance Spent: 0%</span>
+          <span class="progress-remaining" id="budgetRemainingLabel">Rs. 5,000.00 Remaining</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="budgetProgressBar">
+          <div class="progress-fill" id="budgetProgressFill" style="width: 0%;"></div>
+        </div>
+        <div class="budget-tips-pill" id="studentBudgetTip">
+          💡 <span id="studentBudgetText">Pro Tip: Track everyday canteen snacks and printouts to keep your weekend budget safe!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 2: WEEKLY VISUAL INSIGHTS & CALCULATOR
+         Two-column layout: Left = Category Pie Chart, Right = Student Calculator
+         ==================================================================== -->
+    <div class="insights-and-calc-grid">
+      
+      <!-- Category-wise Weekly Pie Chart -->
+      <section class="card chart-card" aria-label="Category expense breakdown for the week">
+        <div class="card-header-row">
+          <div>
+            <h2 class="card-title">Weekly Spending Breakdown</h2>
+            <p class="card-subtitle">Category distribution for Monday &ndash; Sunday</p>
+          </div>
+          <span class="chip active" id="chartWeekLabel">This Week</span>
+        </div>
+
+        <div class="chart-content-wrap">
+          <!-- Empty State for Chart -->
+          <div id="chartEmptyState" class="chart-empty-state">
+            <div class="chart-empty-icon" aria-hidden="true">🎉</div>
+            <h3 class="chart-empty-title">No spending recorded this week!</h3>
+            <p class="chart-empty-desc">Your weekly allowance is untouched. Add an expense to see where your money goes.</p>
+          </div>
+
+          <!-- Dynamic SVG Pie / Donut Chart & Legend -->
+          <div id="chartDataContainer" class="chart-data-container hidden">
+            <div class="chart-canvas-wrap">
+              <svg id="pieChartSvg" class="pie-chart-svg" viewBox="0 0 240 240" role="img" aria-label="Weekly expense pie chart">
+                <!-- Slices dynamically injected via JS -->
+              </svg>
+              <!-- Center Donut Label -->
+              <div class="donut-center-label">
+                <span class="donut-center-title">Spent</span>
+                <span class="donut-center-amount" id="chartCenterTotal">Rs. 0</span>
+              </div>
+            </div>
+
+            <!-- Legend with Category, Percentage, Amount -->
+            <div class="chart-legend" id="chartLegendContainer">
+              <!-- Dynamically populated legend items -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Student Compact Calculator (Side Panel on Desktop, Stacks on Mobile) -->
+      <aside class="card calculator-card" aria-label="Student quick calculator">
+        <div class="calc-header">
+          <div class="calc-title-wrap">
+            <span class="calc-icon" aria-hidden="true">🧮</span>
+            <div>
+              <h2 class="calc-title">Quick Student Calc</h2>
+              <p class="calc-subtitle">Split food, printouts &amp; bills</p>
+            </div>
+          </div>
+          <button id="calcClearHistoryBtn" class="calc-top-action" title="Clear screen (Esc)">C</button>
+        </div>
+
+        <!-- Calculator Screen -->
+        <div class="calc-screen">
+          <div class="calc-expression" id="calcExpression">&nbsp;</div>
+          <div class="calc-display" id="calcDisplay">0</div>
+        </div>
+
+        <!-- Calculator Keypad -->
+        <div class="calc-keypad">
+          <button type="button" class="calc-btn calc-op" data-action="clear">AC</button>
+          <button type="button" class="calc-btn calc-op" data-action="backspace" title="Backspace (⌫)">⌫</button>
+          <button type="button" class="calc-btn calc-op" data-action="percent">%</button>
+          <button type="button" class="calc-btn calc-op calc-accent" data-action="divide">&divide;</button>
+
+          <button type="button" class="calc-btn" data-num="7">7</button>
+          <button type="button" class="calc-btn" data-num="8">8</button>
+          <button type="button" class="calc-btn" data-num="9">9</button>
+          <button type="button" class="calc-btn calc-op calc-accent" data-action="multiply">&times;</button>
+
+          <button type="button" class="calc-btn" data-num="4">4</button>
+          <button type="button" class="calc-btn" data-num="5">5</button>
+          <button type="button" class="calc-btn" data-num="6">6</button>
+          <button type="button" class="calc-btn calc-op calc-accent" data-action="subtract">&minus;</button>
+
+          <button type="button" class="calc-btn" data-num="1">1</button>
+          <button type="button" class="calc-btn" data-num="2">2</button>
+          <button type="button" class="calc-btn" data-num="3">3</button>
+          <button type="button" class="calc-btn calc-op calc-accent" data-action="add">+</button>
+
+          <button type="button" class="calc-btn calc-btn-wide" data-num="0">0</button>
+          <button type="button" class="calc-btn" data-action="decimal">.</button>
+          <button type="button" class="calc-btn calc-equals" data-action="equals">=</button>
+        </div>
+
+        <p class="calc-helper-note">💡 Keyboard input supported (Numbers, +, -, *, /, Enter, Esc). Calculations are temporary.</p>
+      </aside>
+    </div>
+
+    <!-- ====================================================================
+         SECTION 3: MONTHLY STATS & EXPENSES MANAGEMENT (FULL CRUD & FILTERS)
+         ==================================================================== -->
     
-    <!-- Dashboard Stats / Month Focus -->
+    <!-- Monthly Quick Stats -->
     <section class="dashboard-section" aria-label="Monthly spending dashboard">
       <div class="month-selector-bar">
         <div class="month-navigation">
@@ -80,13 +297,13 @@
             <span class="stat-label">Month Total Spent</span>
             <span class="stat-badge" id="monthBadge">This Month</span>
           </div>
-          <div class="stat-value" id="monthTotalSpent">$0.00</div>
-          <p class="stat-meta" id="monthAverageDaily">Daily average: $0.00</p>
+          <div class="stat-value" id="monthTotalSpent">Rs. 0.00</div>
+          <p class="stat-meta" id="monthAverageDaily">Daily average: Rs. 0.00</p>
         </div>
 
         <div class="stat-card">
           <div class="stat-header">
-            <span class="stat-label">Transactions</span>
+            <span class="stat-label">Month Transactions</span>
             <span class="stat-icon-wrapper" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -111,7 +328,7 @@
               </svg>
             </span>
           </div>
-          <div class="stat-value text-capitalize" id="monthTopCategory">—</div>
+          <div class="stat-value text-capitalize" id="monthTopCategory">&mdash;</div>
           <p class="stat-meta" id="monthTopCategoryAmount">No data recorded</p>
         </div>
       </div>
@@ -120,8 +337,9 @@
     <!-- Filter & Search Toolbar -->
     <section class="filter-card" aria-label="Expense search and filters">
       <div class="filter-header">
-        <h2 class="section-title">Expense History & Filters</h2>
+        <h2 class="section-title">Expense History &amp; Filters</h2>
         <div class="quick-filter-chips">
+          <button type="button" class="chip" data-period="week">This Week</button>
           <button type="button" class="chip active" data-period="month">This Month</button>
           <button type="button" class="chip" data-period="all">All Time</button>
           <button type="button" class="chip" data-period="custom">Custom Range</button>
@@ -137,7 +355,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="searchQuery" class="form-control" placeholder="Search keywords..." />
+            <input type="text" id="searchQuery" class="form-control" placeholder="Search canteen, prints, transport..." />
           </div>
         </div>
 
@@ -146,14 +364,13 @@
           <label for="filterCategory" class="form-label">Category</label>
           <select id="filterCategory" class="form-control">
             <option value="">All Categories</option>
+            <option value="Food & Canteen">Food &amp; Canteen</option>
             <option value="Groceries">Groceries</option>
-            <option value="Food & Dining">Food & Dining</option>
-            <option value="Transport">Transport</option>
-            <option value="Utilities">Utilities</option>
-            <option value="Shopping">Shopping</option>
+            <option value="Transport & Bus">Transport &amp; Bus</option>
+            <option value="Education & Prints">Education &amp; Prints</option>
+            <option value="Utilities & Data">Utilities &amp; Data</option>
             <option value="Entertainment">Entertainment</option>
-            <option value="Health">Health</option>
-            <option value="Personal">Personal</option>
+            <option value="Personal Care">Personal Care</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -177,7 +394,7 @@
       </div>
     </section>
 
-    <!-- Expenses Data Table / List -->
+    <!-- Expenses Data Table -->
     <section class="expenses-card" aria-label="Expenses list">
       <!-- Loading Skeleton State -->
       <div id="loadingState" class="state-container skeleton-container">
@@ -197,7 +414,7 @@
           </svg>
         </div>
         <h3 class="state-title">No expenses found</h3>
-        <p class="state-description" id="emptyStateDesc">There are no expenses matching your current filters. Add a new spend or adjust the date range.</p>
+        <p class="state-description" id="emptyStateDesc">There are no expenses recorded for this period. Click 'Add Expense' to track your spending!</p>
         <button id="emptyStateAddBtn" class="btn btn-primary btn-sm">Add First Expense</button>
       </div>
 
@@ -215,7 +432,7 @@
         <button id="retryBtn" class="btn btn-secondary btn-sm">Retry</button>
       </div>
 
-      <!-- Table View (Desktop & Tablet) -->
+      <!-- Table View -->
       <div id="tableWrapper" class="table-responsive hidden">
         <table class="expenses-table">
           <thead>
@@ -223,7 +440,7 @@
               <th scope="col" style="width: 15%;">Date</th>
               <th scope="col" style="width: 22%;">Category</th>
               <th scope="col" style="width: 35%;">Note / Description</th>
-              <th scope="col" style="width: 16%; text-align: right;">Amount</th>
+              <th scope="col" style="width: 16%; text-align: right;">Amount (Rs.)</th>
               <th scope="col" style="width: 12%; text-align: right;">Actions</th>
             </tr>
           </thead>
@@ -238,16 +455,24 @@
   <!-- Footer -->
   <footer class="app-footer">
     <div class="container footer-content">
-      <p>SpendSnap &bull; Built with Spring Boot 3 &amp; Modern Vanilla Web</p>
+      <p>SpendSnap &bull; Student Budget &amp; Expense Tracker &bull; Sri Lankan Rupees (Rs.)</p>
       <p class="footer-links">
         <a href="/h2-console" target="_blank" rel="noopener">H2 Database Console</a>
         <span>&bull;</span>
-        <a href="/api/expenses" target="_blank" rel="noopener">REST API Endpoint</a>
+        <a href="/api/expenses" target="_blank" rel="noopener">Expenses API</a>
+        <span>&bull;</span>
+        <a href="/api/incomes" target="_blank" rel="noopener">Income API</a>
+        <span>&bull;</span>
+        <a href="/api/budgets/weekly?weekStartDate=2026-10-05" target="_blank" rel="noopener">Budget API</a>
       </p>
     </div>
   </footer>
 
-  <!-- Modal: Add / Edit Expense -->
+  <!-- ====================================================================
+       MODALS
+       ==================================================================== -->
+
+  <!-- Modal 1: Add / Edit Expense -->
   <div id="expenseModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-card">
       <div class="modal-header">
@@ -264,20 +489,19 @@
         <input type="hidden" id="expenseId" value="" />
 
         <div class="modal-body">
-          <!-- Server Error Alert Box -->
           <div id="formAlertBox" class="alert-box alert-danger hidden" role="alert"></div>
 
           <!-- Amount Input -->
           <div class="form-group">
-            <label for="expenseAmount" class="form-label">Amount ($) <span class="required-asterisk">*</span></label>
+            <label for="expenseAmount" class="form-label">Amount (Rs.) <span class="required-asterisk">*</span></label>
             <div class="input-with-icon">
-              <span class="currency-prefix" aria-hidden="true">$</span>
+              <span class="currency-prefix" aria-hidden="true">Rs.</span>
               <input 
                 type="number" 
                 id="expenseAmount" 
                 name="amount"
                 class="form-control has-prefix" 
-                placeholder="0.00" 
+                placeholder="500.00" 
                 step="0.01" 
                 min="0.01" 
                 required 
@@ -291,14 +515,13 @@
             <label for="expenseCategory" class="form-label">Category <span class="required-asterisk">*</span></label>
             <select id="expenseCategory" name="category" class="form-control" required>
               <option value="" disabled selected>Select category...</option>
+              <option value="Food & Canteen">Food &amp; Canteen</option>
               <option value="Groceries">Groceries</option>
-              <option value="Food & Dining">Food & Dining</option>
-              <option value="Transport">Transport</option>
-              <option value="Utilities">Utilities</option>
-              <option value="Shopping">Shopping</option>
+              <option value="Transport & Bus">Transport &amp; Bus</option>
+              <option value="Education & Prints">Education &amp; Prints</option>
+              <option value="Utilities & Data">Utilities &amp; Data</option>
               <option value="Entertainment">Entertainment</option>
-              <option value="Health">Health</option>
-              <option value="Personal">Personal</option>
+              <option value="Personal Care">Personal Care</option>
               <option value="Other">Other</option>
             </select>
             <span class="field-error" id="categoryError"></span>
@@ -325,7 +548,7 @@
               id="expenseNote" 
               name="note"
               class="form-control" 
-              placeholder="e.g. Trader Joe's grocery run" 
+              placeholder="e.g. Canteen lunch + tea" 
               maxlength="255" 
             />
             <span class="field-error" id="noteError"></span>
@@ -343,7 +566,142 @@
     </div>
   </div>
 
-  <!-- Modal: Delete Confirmation -->
+  <!-- Modal 2: Edit Weekly Allowance -->
+  <div id="allowanceModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="allowanceModalTitle">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3 id="allowanceModalTitle" class="modal-title">Edit Weekly Allowance</h3>
+        <button id="closeAllowanceModalBtn" class="btn-icon" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="allowanceForm" novalidate>
+        <div class="modal-body">
+          <p class="modal-intro-text">Set your starting budget for <strong id="allowanceWeekLabel">this week</strong>. (Default is Rs. 5,000.00)</p>
+          <div class="form-group">
+            <label for="allowanceInput" class="form-label">Allowance Amount (Rs.) <span class="required-asterisk">*</span></label>
+            <div class="input-with-icon">
+              <span class="currency-prefix">Rs.</span>
+              <input 
+                type="number" 
+                id="allowanceInput" 
+                class="form-control has-prefix" 
+                placeholder="5000.00" 
+                min="0" 
+                step="100" 
+                required 
+              />
+            </div>
+            <span class="field-error" id="allowanceError"></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelAllowanceBtn" class="btn btn-subtle">Cancel</button>
+          <button type="submit" id="saveAllowanceBtn" class="btn btn-primary">
+            <span id="allowanceBtnSpinner" class="spinner hidden" aria-hidden="true"></span>
+            <span>Update Allowance</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Extra Income -->
+  <div id="incomeModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="incomeModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="incomeModalTitle" class="modal-title">+ Add Extra Income</h3>
+        <button id="closeIncomeModalBtn" class="btn-icon" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="incomeForm" novalidate>
+        <div class="modal-body">
+          <div id="incomeFormAlert" class="alert-box alert-danger hidden"></div>
+
+          <div class="form-group">
+            <label for="incomeAmount" class="form-label">Amount (Rs.) <span class="required-asterisk">*</span></label>
+            <div class="input-with-icon">
+              <span class="currency-prefix">Rs.</span>
+              <input 
+                type="number" 
+                id="incomeAmount" 
+                class="form-control has-prefix" 
+                placeholder="1000.00" 
+                step="0.01" 
+                min="0.01" 
+                required 
+              />
+            </div>
+            <span class="field-error" id="incomeAmountError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="incomeDate" class="form-label">Date <span class="required-asterisk">*</span></label>
+            <input type="date" id="incomeDate" class="form-control" required />
+            <span class="field-error" id="incomeDateError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="incomeSource" class="form-label">Source / Note <span class="optional-tag">(Optional)</span></label>
+            <input 
+              type="text" 
+              id="incomeSource" 
+              class="form-control" 
+              placeholder="e.g. Pocket money from uncle, Tutoring fee, Freelance" 
+              maxlength="100" 
+            />
+            <span class="field-error" id="incomeSourceError"></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelIncomeBtn" class="btn btn-subtle">Cancel</button>
+          <button type="submit" id="saveIncomeBtn" class="btn btn-primary">
+            <span id="saveIncomeSpinner" class="spinner hidden" aria-hidden="true"></span>
+            <span>Record Income</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: View Week Incomes List -->
+  <div id="incomesListModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="incomesListTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="incomesListTitle" class="modal-title">Extra Income Entries</h3>
+          <p class="modal-subtitle" id="incomesListSubtitle">Week of Oct 05 &ndash; Oct 11, 2026</p>
+        </div>
+        <button id="closeIncomesListBtn" class="btn-icon" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="incomesListEmpty" class="incomes-empty hidden">
+          <p>No extra income entries recorded for this week.</p>
+        </div>
+        <ul id="incomesListContainer" class="incomes-item-list">
+          <!-- Injected via JS -->
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="incomesListAddMoreBtn" class="btn btn-primary btn-sm">+ Add New Income</button>
+        <button type="button" id="closeIncomesListFooterBtn" class="btn btn-subtle btn-sm">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Delete Confirmation -->
   <div id="deleteModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
     <div class="modal-card modal-sm">
       <div class="modal-header">
@@ -359,7 +717,7 @@
         <p>Are you sure you want to delete this expense?</p>
         <div class="delete-preview-box" id="deletePreviewBox">
           <strong id="deletePreviewCategory">Groceries</strong>
-          <span id="deletePreviewAmount">$0.00</span>
+          <span id="deletePreviewAmount">Rs. 0.00</span>
           <p id="deletePreviewDate" class="text-muted">Oct 4, 2026</p>
         </div>
         <p class="text-danger-notice">This action cannot be undone.</p>
@@ -374,7 +732,7 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
+  <!-- Toast Container -->
   <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- App Script -->
