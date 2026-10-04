@@ -30,21 +30,21 @@
     deletingExpenseId: null,
   };
 
-  // Color palette for Categories in Charts & Badges
+  // Color palette for Categories in Charts & Badges (Cute & vibrant pop colors)
   const CATEGORY_COLORS = {
-    'Food & Canteen': '#E65100',
-    'Food & Dining': '#E65100',
-    'Groceries': '#2E7D32',
-    'Transport & Bus': '#0288D1',
-    'Transport': '#0288D1',
-    'Education & Prints': '#7B1FA2',
-    'Utilities & Data': '#00796B',
-    'Utilities': '#00796B',
-    'Entertainment': '#F57F17',
-    'Personal Care': '#5D4037',
-    'Personal': '#5D4037',
-    'Shopping': '#C2185B',
-    'Other': '#78909C',
+    'Food & Canteen': '#FB923C',
+    'Food & Dining': '#FB923C',
+    'Groceries': '#34D399',
+    'Transport & Bus': '#38BDF8',
+    'Transport': '#38BDF8',
+    'Education & Prints': '#A855F7',
+    'Utilities & Data': '#2DD4BF',
+    'Utilities': '#2DD4BF',
+    'Entertainment': '#F472B6',
+    'Personal Care': '#FBBF24',
+    'Personal': '#FBBF24',
+    'Shopping': '#FB7185',
+    'Other': '#94A3B8',
   };
 
   // DOM Elements
@@ -315,7 +315,7 @@
         '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--danger)"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
     } else {
       iconSvg =
-        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--maroon-700)"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-800)"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
     }
 
     toast.innerHTML = `
@@ -557,7 +557,7 @@
       el.budgetProgressFill.classList.add('fill-overspent');
       el.budgetProgressLabel.textContent = `Allowance Spent: ${spentPct.toFixed(0)}% (Over by ${formatCurrency(overspentAmount)})`;
       el.budgetRemainingLabel.textContent = `Negative Balance: -${formatCurrency(overspentAmount)}`;
-      el.studentBudgetText.textContent = 'Budget alert: You have exceeded your weekly funds. Reduce non-essential spending!';
+      el.studentBudgetText.textContent = '🚨 Overspent! Time for instant noodles & hold off on extra treats until next week!';
     } else if (totalFunds > 0 && spentPct >= 80) {
       // Low Budget (<20% remaining)
       el.balanceCard.classList.add('balance-warning');
@@ -566,7 +566,7 @@
       el.budgetProgressFill.classList.add('fill-warning');
       el.budgetProgressLabel.textContent = `Allowance Spent: ${spentPct.toFixed(0)}%`;
       el.budgetRemainingLabel.textContent = `${formatCurrency(balance)} Remaining`;
-      el.studentBudgetText.textContent = 'Heads up! Under 20% of your funds remaining for this week. Plan meals carefully!';
+      el.studentBudgetText.textContent = '⚠️ Under 20% remaining! Stick to canteen staples & keep coins safe for bus fare! 🚌';
     } else {
       // Healthy
       el.balanceCard.classList.add('balance-healthy');
@@ -575,7 +575,7 @@
       el.budgetProgressFill.classList.add('fill-healthy');
       el.budgetProgressLabel.textContent = totalFunds === 0 ? 'Allowance Spent: 0%' : `Allowance Spent: ${spentPct.toFixed(0)}%`;
       el.budgetRemainingLabel.textContent = `${formatCurrency(balance)} Remaining`;
-      el.studentBudgetText.textContent = 'Great pacing! You are on track to stay comfortably within your weekly budget.';
+      el.studentBudgetText.textContent = '✨ You are doing great! Campus budget is well balanced and on track 🎓';
     }
   }
 
